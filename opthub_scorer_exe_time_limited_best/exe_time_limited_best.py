@@ -1,9 +1,26 @@
-import os
 import json
+import os
 
 
 def limited_best(solution_to_score: str, solutions_scored: str, limit: int) -> float:
-    pass
+    if type(limit) is not int:
+        raise TypeError(f"limit must be int (actually {type(limit)})")
+    if limit < 0:
+        raise ValueError(f"limit must be positive (actually {limit})")
+
+    now = json.loads(solution_to_score)
+    until = json.loads(solutions_scored)
+
+    total_time = sum(map(lambda x: x["info"]["exe_time"], until))
+    total_time = total_time + now["info"]["exe_time"]
+
+    best = until[-1]["score"]
+
+    if total_time > limit:
+        return best
+
+    y = now["objective"]
+    return min(y, best)
 
 
 def main():
@@ -14,5 +31,5 @@ def main():
     print(score)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
