@@ -2,7 +2,7 @@ import json
 import os
 
 
-def limited_best(solution_to_score: str, solutions_scored: str, limit: int) -> float:
+def limited_min(solution_to_score: str, solutions_scored: str, limit: int) -> float:
     if type(limit) is not int:
         raise TypeError(f"limit must be int (actually {type(limit)})")
     if limit < 0:
@@ -27,7 +27,7 @@ def main():
     limit = int(os.getenv("EXE_TIME_LIMIT", 8 * 60 * 60))
     solution_to_score = input()
     solutions_scored = input()
-    score = limited_best(solution_to_score, solutions_scored, limit)
+    score = limited_min(solution_to_score, solutions_scored, limit)
     print(score)
 
 

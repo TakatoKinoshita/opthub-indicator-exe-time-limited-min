@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from opthub_scorer_exe_time_limited_best.exe_time_limited_best import limited_best
+from opthub_scorer_exe_time_limited_best.exe_time_limited_best import limited_min
 
 
 @pytest.fixture
@@ -12,7 +12,7 @@ def now():
     )
 
 
-def test_limited_best_normal_return_min_1(now):
+def test_limited_min_normal_return_min_1(now):
     """
     最小値を返す
     """
@@ -45,11 +45,11 @@ def test_limited_best_normal_return_min_1(now):
         ]
     )
 
-    score = limited_best(now, until, limit)
+    score = limited_min(now, until, limit)
     assert score == expected
 
 
-def test_limited_best_normal_return_min_2(now):
+def test_limited_min_normal_return_min_2(now):
     """
     最小値を返す
     """
@@ -82,11 +82,11 @@ def test_limited_best_normal_return_min_2(now):
         ]
     )
 
-    score = limited_best(now, until, limit)
+    score = limited_min(now, until, limit)
     assert score == expected
 
 
-def test_limited_best_normal_return_limited_min_1(now):
+def test_limited_min_normal_return_limited_min_1(now):
     """
     `exe_time`の合計が`limit`以下までの最小値を返す
     """
@@ -119,11 +119,11 @@ def test_limited_best_normal_return_limited_min_1(now):
         ]
     )
 
-    score = limited_best(now, until, limit)
+    score = limited_min(now, until, limit)
     assert score == expected
 
 
-def test_limited_best_normal_return_limited_min_2(now):
+def test_limited_min_normal_return_limited_min_2(now):
     """
     `exe_time`の合計が`limit`以下までの最小値を返す
     """
@@ -156,11 +156,11 @@ def test_limited_best_normal_return_limited_min_2(now):
         ]
     )
 
-    score = limited_best(now, until, limit)
+    score = limited_min(now, until, limit)
     assert score == expected
 
 
-def test_limited_best_error_limit_negative(now):
+def test_limited_min_error_limit_negative(now):
     """
     `limit`は正
     """
@@ -191,4 +191,4 @@ def test_limited_best_error_limit_negative(now):
     )
     with pytest.raises(ValueError):
         limit = -1
-        limited_best(now, until, limit)
+        limited_min(now, until, limit)
