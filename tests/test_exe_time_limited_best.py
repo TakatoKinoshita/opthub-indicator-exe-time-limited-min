@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from opthub_scorer_exe_time_limited_best.exe_time_limited_best import limited_min
+from opthub_indicator_exe_time_limited_min.exe_time_limited_min import limited_min
 
 
 @pytest.fixture
