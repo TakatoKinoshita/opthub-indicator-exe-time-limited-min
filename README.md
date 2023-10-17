@@ -61,7 +61,7 @@ In addition, each solution must have `id`, `objective`, `info`, `exe_time` in `i
 
 ## Output Layout
 
-This indicator returns the minimum objective value until the total `exe_time` is lower than `EXE_TIME_LIMIT`.
+This indicator returns the minimum objective value until the total `exe_time` exceeds `EXE_TIME_LIMIT`.
 
 ```json
 2
