@@ -49,7 +49,7 @@ def main():
 if __name__ == "__main__":
     try:
         LOGGER.info("Start")
-        log_level = os.getenv("PY_LOG_LEVEL", CRITICAL)
+        log_level = int(os.getenv("PY_LOG_LEVEL", CRITICAL))
         basicConfig(level=log_level)
         LOGGER.info(f"{log_level = }")
         main()
