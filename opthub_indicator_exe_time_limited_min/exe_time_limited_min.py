@@ -8,9 +8,9 @@ LOGGER = getLogger(__name__)
 
 def limited_min(solution_to_score: str, solutions_scored: str, limit: int) -> float:
     if type(limit) is not int:
-        raise TypeError(f"limit must be int (actually {type(limit)})")
+        raise TypeError(f"EXE_TIME_LIMIT must be int (actually {type(limit)})")
     if limit < 0:
-        raise ValueError(f"limit must be positive (actually {limit})")
+        raise ValueError(f"EXE_TIME_LIMIT must be positive (actually {limit})")
 
     now = json.loads(solution_to_score)
     LOGGER.debug(f"{now = }")
