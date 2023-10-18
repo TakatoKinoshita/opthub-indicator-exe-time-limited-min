@@ -11,6 +11,10 @@ def limited_min(solution_to_score: str, solutions_scored: str, limit: int) -> fl
     now = json.loads(solution_to_score)
     until = json.loads(solutions_scored)
 
+    y = now["objective"]
+    if not until:
+        return y
+
     total_time = sum(map(lambda x: x["info"]["exe_time"], until))
     total_time = total_time + now["info"]["exe_time"]
 
@@ -19,7 +23,6 @@ def limited_min(solution_to_score: str, solutions_scored: str, limit: int) -> fl
     if total_time > limit:
         return best
 
-    y = now["objective"]
     return min(y, best)
 
 
