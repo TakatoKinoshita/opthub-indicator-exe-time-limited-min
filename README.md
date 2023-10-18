@@ -37,7 +37,7 @@ Input the second line and press Enter.
 
 Wait for a while, and then you get the score.
 
-```
+```json
 {"score": 2}
 ```
 
