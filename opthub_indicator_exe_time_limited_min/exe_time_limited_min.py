@@ -31,8 +31,11 @@ def main():
     solution_to_score = input()
     solutions_scored = input()
     score = limited_min(solution_to_score, solutions_scored, limit)
-    print(score)
+    print(json.dumps({"score": score}))
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(json.dumps({"score": None, "error": str(e)}))

@@ -38,7 +38,7 @@ Input the second line and press Enter.
 Wait for a while, and then you get the score.
 
 ```
-2
+{"score": 2}
 ```
 
 ## Input Layout
@@ -61,10 +61,10 @@ In addition, each solution must have `id`, `objective`, `info`, `exe_time` in `i
 
 ## Output Layout
 
-This indicator returns the minimum objective value until the total `exe_time` exceeds `EXE_TIME_LIMIT`.
+This indicator returns the minimum objective value until the total `exe_time` exceeds `EXE_TIME_LIMIT` as `score` in an object.
 
 ```json
-2
+{"score": 2}
 ```
 
 ## Setting
