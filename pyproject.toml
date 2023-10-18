@@ -1,10 +1,11 @@
 [tool.poetry]
-name = "opthub-scorer-exe-time-limited-best"
+name = "opthub-indicator-exe-time-limited-min"
 version = "0.1.0"
-description = "A opthub scorer returns minimum objective value under total exe_time"
+description = "An opthub indicator returns minimum objective value until total exe_time exceeds EXE_TIME_LIMIT"
 authors = ["Takato Kinoshita <takato@ieee.org>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/TakatoKinoshita/opthub-indicator-exe-time-limited-min"
 
 [tool.poetry.dependencies]
 python = "^3.11"
