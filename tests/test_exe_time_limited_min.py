@@ -100,7 +100,11 @@ def test_normal_limited_min(solution_list, limit, expects):
     for sol, expect in zip(solution_list, expects):
         now_str = json.dumps(sol)
         until_str = json.dumps(until)
-        score = limited_min(now_str, until_str, limit)
+        score = None
+        try:
+            score = limited_min(now_str, until_str, limit)
+        except Exception:
+            pytest.fail()
         assert score == expect
         sol["score"] = score
         until.append(sol)
@@ -122,7 +126,7 @@ def test_normal_limited_min_now_objective_type(now, until, test_type):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -150,7 +154,7 @@ def test_normal_limited_min_now_constraint_type(now, until, constraint):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -178,7 +182,7 @@ def test_normal_limited_min_now_lack_property(now, until, remove):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -208,7 +212,7 @@ def test_normal_limited_min_until_lack_property(now, until, remove):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -236,7 +240,7 @@ def test_error_limited_min_now_objective_type(now, until, test_type):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -262,7 +266,7 @@ def test_error_limited_min_now_constraint_type(now, until, constraint):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -272,7 +276,7 @@ def test_error_limited_min_now_constraint_type(now, until, constraint):
         limited_min(now, until, limit)
 
 
-@pytest.mark.parametrize("info", [None, {"exe_time": None}, 1.5])
+@pytest.mark.parametrize("info", [None, {}, {"exe_time": None}, 1.5])
 def test_error_limited_min_now_info_type(now, until, info):
     """
     now:
@@ -288,7 +292,7 @@ def test_error_limited_min_now_info_type(now, until, info):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -314,7 +318,7 @@ def test_error_limited_min_now_lack_property(now, until, remove):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -326,7 +330,7 @@ def test_error_limited_min_now_lack_property(now, until, remove):
         limited_min(now, until, limit)
 
 
-@pytest.mark.parametrize("info", [None, {"exe_time": None}, 1.5])
+@pytest.mark.parametrize("info", [None, {}, {"exe_time": None}, 1.5])
 def test_error_limited_min_until_info_type(now, until, info):
     """
     now:
@@ -342,7 +346,7 @@ def test_error_limited_min_until_info_type(now, until, info):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
@@ -350,6 +354,38 @@ def test_error_limited_min_until_info_type(now, until, info):
     until_obj = json.loads(until)
     for ent in until_obj:
         ent["info"] = info
+    until = json.dumps(until_obj)
+    with pytest.raises(ValidationError):
+        limited_min(now, until, limit)
+
+
+@pytest.mark.parametrize("test_type", [None, str])
+def test_error_limited_min_until_score_type(now, until, test_type):
+    """
+    now:
+    ```jsonc
+    {
+        "objective"?: number?,
+        "constraint"?: Union[number, array[number]]?, // [] is NG
+        "info": {"exe_time": number}
+    }
+    ```
+
+    until:
+    ```jsonc
+    [{
+        "info": {"exe_time": number},
+        "score": number
+    }] // [] is ok
+    ```
+    """
+    limit = 100
+    until_obj = json.loads(until)
+    for ent in until_obj:
+        if test_type is None:
+            ent["score"] = None
+        else:
+            ent["score"] = test_type(ent["score"])
     until = json.dumps(until_obj)
     with pytest.raises(ValidationError):
         limited_min(now, until, limit)
@@ -371,7 +407,7 @@ def test_error_limited_min_until_lack_property(now, until, remove):
     ```jsonc
     [{
         "info": {"exe_time": number},
-        "score": ord
+        "score": number
     }] // [] is ok
     ```
     """
