@@ -1,4 +1,6 @@
 import json
+from math import inf
+from sys import float_info
 from typing import Any, List
 
 import pytest
@@ -75,6 +77,30 @@ def solution_list(request):
             {"objective": 4.0, "info": {"exe_time": 3, "delays": [0, 0, 0, 0, 0, 0]}},
             {"objective": 1.5, "info": {"exe_time": 1.5, "delays": [0, 0, 0, 0, 0, 0]}},
         ],
+        [
+            {"objective": 2.0, "constraint": None, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 3.0, "constraint": None, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": None, "constraint": 10, "info": {"exe_time": 3, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 1.5, "constraint": None, "info": {"exe_time": 1.5, "delays": [0, 0, 0, 0, 0, 0]}},
+        ],
+        [
+            {"objective": 2.0, "constraint": None, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 3.0, "constraint": None, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"constraint": 10, "info": {"exe_time": 3, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 1.5, "constraint": None, "info": {"exe_time": 1.5, "delays": [0, 0, 0, 0, 0, 0]}},
+        ],
+        [
+            {"objective": None, "constraint": 5, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 3.0, "constraint": None, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 4.0, "constraint": None, "info": {"exe_time": 3, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 1.5, "constraint": None, "info": {"exe_time": 1.5, "delays": [0, 0, 0, 0, 0, 0]}},
+        ],
+        [
+            {"constraint": 5, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 3.0, "constraint": None, "info": {"exe_time": 2, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 4.0, "constraint": None, "info": {"exe_time": 3, "delays": [0, 0, 0, 0, 0, 0]}},
+            {"objective": 1.5, "constraint": None, "info": {"exe_time": 1.5, "delays": [0, 0, 0, 0, 0, 0]}},
+        ],
     ]
 
     return lists[request.param]
@@ -89,6 +115,10 @@ def solution_list(request):
         (1, 8, [2.0, 2.0, 2.0, 2.0]),
         (2, 100, [2.0, 2.0, 1.0, 1.0]),
         (3, 100, [2.0, 2.0, 2.0, 1.5]),
+        (4, 100, [2.0, 2.0, 2.0, 1.5]),
+        (5, 100, [2.0, 2.0, 2.0, 1.5]),
+        (6, 100, [inf, 3.0, 3.0, 1.5]),
+        (7, 100, [inf, 3.0, 3.0, 1.5]),
     ],
     indirect=["solution_list"],
 )
@@ -105,7 +135,11 @@ def test_normal_limited_min(solution_list, limit, expects):
             score = limited_min(now_str, until_str, limit)
         except Exception:
             pytest.fail()
-        assert score == expect
+
+        if expect < inf:
+            assert score == expect
+        else:
+            assert float_info.max / 2 < score < expect
         sol["score"] = score
         until.append(sol)
 
