@@ -1,6 +1,6 @@
 import json
 import os
-from logging import getLogger, basicConfig, CRITICAL
+from logging import CRITICAL, basicConfig, getLogger
 from traceback import format_exc
 
 LOGGER = getLogger(__name__)
