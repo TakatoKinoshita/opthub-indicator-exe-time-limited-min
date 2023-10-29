@@ -17,7 +17,11 @@ SOLUTION_TO_SCORE_JSONSCHEMA = {
         "constraint": {
             "oneOf": [{"type": ["number", "null"]}, {"type": "array", "minItems": 1, "items": {"type": "number"}}]
         },
-        "info": {"type": "object", "properties": {"exe_time": {"type": "number"}}, "required": ["exe_time"]},
+        "info": {
+            "type": "object",
+            "properties": {"exe_time": {"type": "number", "exclusiveMinimum": 0}},
+            "required": ["exe_time"],
+        },
     },
     "required": ["info"],
 }
@@ -33,7 +37,11 @@ SOLUTIONS_SCORED_JSONSCHEMA = {
             "constraint": {
                 "oneOf": [{"type": ["number", "null"]}, {"type": "array", "minItems": 1, "items": {"type": "number"}}]
             },
-            "info": {"type": "object", "properties": {"exe_time": {"type": "number"}}, "required": ["exe_time"]},
+            "info": {
+                "type": "object",
+                "properties": {"exe_time": {"type": "number", "exclusiveMinimum": 0}},
+                "required": ["exe_time"],
+            },
             "score": {"type": "number"},
         },
         "required": ["info", "score"],
