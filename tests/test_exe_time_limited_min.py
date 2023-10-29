@@ -258,6 +258,16 @@ def test_normal_limited_min_until_lack_property(now, until, remove):
         pytest.fail()
 
 
+@pytest.mark.parametrize("exe_time", [10**i for i in range(1, 6)])
+def test_normal_limited_min_exe_time_range(exe_time):
+    now = '{"objective": 1.5, "constraint": null, "info": {"exe_time": %d, "delays": [0, 0, 0, 0, 0, 0]}}' % exe_time
+    until = "[]"
+    try:
+        limited_min(now, until, int(1e10))
+    except Exception:
+        pytest.fail()
+
+
 @pytest.mark.parametrize("test_type", [str])
 def test_error_limited_min_now_objective_type(now, until, test_type):
     """
@@ -449,6 +459,17 @@ def test_error_limited_min_until_lack_property(now, until, remove):
     until = list_remove_key(until, remove)
     with pytest.raises(ValidationError):
         limited_min(now, until, limit)
+
+
+@pytest.mark.parametrize("exe_time", [-1, 0])
+def test_error_limited_min_exe_time_range(exe_time):
+    """
+    `exe_time` > 0
+    """
+    now = '{"objective": 1.5, "constraint": null, "info": {"exe_time": %d, "delays": [0, 0, 0, 0, 0, 0]}}' % exe_time
+    until = "[]"
+    with pytest.raises(ValidationError):
+        limited_min(now, until, int(1e10))
 
 
 def test_error_limited_min_limit_negative(now, until):
